@@ -4,6 +4,7 @@ const inquirer = require("inquirer");
 const chalk = require("chalk");
 const figlet = require("figlet");
 const shell = require("shelljs");
+const commander = require('commander');
 
 const init = () => {
   console.log(
@@ -38,7 +39,7 @@ const askQuestions = () => {
 };
 
 const createFile = (filename, extension) => {
-  const filePath = `${process.cwd()}/${filename}.${extension}`
+  const filePath = `${process.cwd()}/${filename}.${extension}`;
   shell.touch(filePath);
   return filePath;
 };
@@ -49,19 +50,67 @@ const success = filepath => {
   );
 };
 
-const run = async () => {
-  // show script introduction
+const CreateFile = async () => {
+
   init();
 
-  // ask questions
   const answers = await askQuestions();
   const { FILENAME, EXTENSION } = answers;
 
-  // create the file
   const filePath = createFile(FILENAME, EXTENSION);
 
-  // show success message
   success(filePath);
 };
+//List file function
+const ListFiles = () =>{
+  var c=1;
+  shell.ls('-A').forEach(function(file) {
+  shell.echo(chalk.magenta(c+". ")+chalk.white.bgBlue.bold(file));
+  c++;
+});
+};
+const DeleteFile =(fn) =>{
+  var c=0;
+    shell.ls('-A').forEach(function(file){
+    if(fn ==file)
+    c++;
+  });
 
-run();
+  if(c!=0){
+  shell.rm('-rf',fn);
+  console.log(chalk.red.bold(fn));}
+  else
+  console.log(chalk.red.bold('Err:No file present with filename -> '+fn));
+};
+
+//Create file
+commander
+.command('create')
+.alias('c')
+.description('Create File')
+.action(()=>{
+  CreateFile();
+});
+
+//List Files
+commander
+.command('list')
+.alias('l')
+.description('List files')
+.action(() => {
+ListFiles();
+});
+
+commander
+.command('delete <_filename>')
+.alias('r')
+.description('delete file')
+.action(_filename => DeleteFile(_filename));
+
+//Check argv
+if (!process.argv.slice(2).length ) {
+  commander.outputHelp();
+  process.exit();
+};
+//Input argv
+commander.parse(process.argv);
