@@ -1,0 +1,20 @@
+{
+  "name": "filor",
+  "version": "1.0.0",
+  "description": "file creator cli tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "phantom_webacker",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.19.0",
+    "figlet": "^1.2.1",
+    "inquirer": "^6.2.1",
+    "shelljs": "^0.8.3"
+  },
+  "preferGlobal": true,
+"bin":{"filor":"./index.js"}
+}
