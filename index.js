@@ -8,7 +8,7 @@ const shell = require("shelljs");
 const init = () => {
   console.log(
     chalk.green(
-      figlet.textSync("Node f*cking JS", {
+      figlet.textSync("Filor", {
         font: "Ghost",
         horizontalLayout: "default",
         verticalLayout: "default"
